@@ -1,3 +1,13 @@
+pip>=23.0
+setuptools>=65.0.1
+wheel>=0.38.4
+
+
+# Data Processing
+pandas==2.0.3
+openpyxl==3.1.2
+
+
 # Flask and Extensions
 Flask==2.3.3
 Flask-SQLAlchemy==3.0.5
@@ -15,9 +25,7 @@ python-dotenv==1.0.0
 requests==2.31.0
 beautifulsoup4==4.12.2
 
-# Data Processing
-pandas==2.1.4
-openpyxl==3.1.2
+
 
 # Development Dependencies (optional)
 Flask-Testing==0.8.1
