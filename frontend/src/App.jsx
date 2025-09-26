@@ -16,36 +16,28 @@ import DispatchDashboard from '@/components/DispatchDepartment';
 import WatchmanDashboard from '@/components/WatchmanDepartment';
 import TransportDashboard from '@/components/TransportDepartment';
 import { useAuth } from '@/hooks/useAuth';
-
+import { API_BASE_URL } from '@/config/api'; // new import
 
 const ProtectedRoute = ({ user, department, children }) => {
-    const location = useLocation();
-    
-    if (!user) {
-        return <Navigate to="/auth" state={{ from: location }} replace />;
-    }
-    // Admin can access everything
-    if (user.department === 'admin') {
-        return children;
-    }
-    if (user.department !== department) {
-        return <Navigate to="/dashboard" replace />;
-    }
-    return children;
+  const location = useLocation();
+
+  if (!user) {
+    return <Navigate to="/auth" state={{ from: location }} replace />;
+  }
+  if (user.department === 'admin') return children;
+  if (user.department !== department) return <Navigate to="/dashboard" replace />;
+  return children;
 };
 
 const AdminRoute = ({ user, children }) => {
-    const location = useLocation();
-    
-    if (!user) {
-        return <Navigate to="/auth" state={{ from: location }} replace />;
-    }
-    if (user.department !== 'admin') {
-        return <Navigate to="/dashboard" replace />;
-    }
-    return children;
-};
+  const location = useLocation();
 
+  if (!user) {
+    return <Navigate to="/auth" state={{ from: location }} replace />;
+  }
+  if (user.department !== 'admin') return <Navigate to="/dashboard" replace />;
+  return children;
+};
 
 function App() {
   const { user, loading } = useAuth();
@@ -57,20 +49,13 @@ function App() {
       </div>
     );
   }
-  
-  // Determine the dashboard path based on user department
+
   const getDashboardPath = () => {
     if (!user) return '/auth';
-    
-    if (user.department === 'admin') {
-      return '/dashboard/admin';
-    } else if (user.department) {
-      return `/dashboard/${user.department}`;
-    } else {
-      return '/dashboard';
-    }
+    if (user.department === 'admin') return '/dashboard/admin';
+    return `/dashboard/${user.department}`;
   };
-  
+
   const dashboardPath = getDashboardPath();
 
   return (
@@ -81,32 +66,29 @@ function App() {
         <meta property="og:title" content="ERP Management System" />
         <meta property="og:description" content="Streamline your business operations with our advanced ERP solution" />
       </Helmet>
-      
+
       <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900">
         <Routes>
-          <Route 
-            path="/auth" 
-            element={!user ? <AuthPage /> : <Navigate to={dashboardPath} replace />} 
+          <Route
+            path="/auth"
+            element={!user ? <AuthPage /> : <Navigate to={dashboardPath} replace />}
           />
-          <Route 
-            path="/dashboard" 
-            element={user ? (user.department === 'admin' ? <Navigate to="/dashboard/admin" replace /> : <Dashboard />) : <Navigate to="/auth" replace />} 
+          <Route
+            path="/dashboard"
+            element={user ? (user.department === 'admin' ? <Navigate to="/dashboard/admin" replace /> : <Dashboard />) : <Navigate to="/auth" replace />}
           />
           <Route path="/dashboard/admin" element={<AdminRoute user={user}><AdminDashboard /></AdminRoute>} />
-          <Route path="/dashboard/production" element={<ProtectedRoute user={user} department="production"><ProductionDashboard /></ProtectedRoute>} />
-          <Route path="/dashboard/purchase" element={<ProtectedRoute user={user} department="purchase"><PurchaseDashboard /></ProtectedRoute>} />
-          <Route path="/dashboard/store" element={<ProtectedRoute user={user} department="store"><StoreDashboard /></ProtectedRoute>} />
-          <Route path="/dashboard/assembly" element={<ProtectedRoute user={user} department="assembly"><AssemblyDashboard /></ProtectedRoute>} />
-          <Route path="/dashboard/finance" element={<ProtectedRoute user={user} department="finance"><FinanceDashboard /></ProtectedRoute>} />
-          <Route path="/dashboard/showroom" element={<ProtectedRoute user={user} department="showroom"><ShowroomDashboard /></ProtectedRoute>} />
-          <Route path="/dashboard/sales" element={<ProtectedRoute user={user} department="sales"><SalesDashboard /></ProtectedRoute>} />
-          <Route path="/dashboard/dispatch" element={<ProtectedRoute user={user} department="dispatch"><DispatchDashboard /></ProtectedRoute>} />
-          <Route path="/dashboard/watchman" element={<ProtectedRoute user={user} department="watchman"><WatchmanDashboard /></ProtectedRoute>} />
-          <Route path="/dashboard/transport" element={<ProtectedRoute user={user} department="transport"><TransportDashboard /></ProtectedRoute>} />
-          <Route 
-            path="/" 
-            element={<Navigate to={dashboardPath} replace />} 
-          />
+          <Route path="/dashboard/production" element={<ProtectedRoute user={user} department="production"><ProductionDashboard apiUrl={API_BASE_URL} /></ProtectedRoute>} />
+          <Route path="/dashboard/purchase" element={<ProtectedRoute user={user} department="purchase"><PurchaseDashboard apiUrl={API_BASE_URL} /></ProtectedRoute>} />
+          <Route path="/dashboard/store" element={<ProtectedRoute user={user} department="store"><StoreDashboard apiUrl={API_BASE_URL} /></ProtectedRoute>} />
+          <Route path="/dashboard/assembly" element={<ProtectedRoute user={user} department="assembly"><AssemblyDashboard apiUrl={API_BASE_URL} /></ProtectedRoute>} />
+          <Route path="/dashboard/finance" element={<ProtectedRoute user={user} department="finance"><FinanceDashboard apiUrl={API_BASE_URL} /></ProtectedRoute>} />
+          <Route path="/dashboard/showroom" element={<ProtectedRoute user={user} department="showroom"><ShowroomDashboard apiUrl={API_BASE_URL} /></ProtectedRoute>} />
+          <Route path="/dashboard/sales" element={<ProtectedRoute user={user} department="sales"><SalesDashboard apiUrl={API_BASE_URL} /></ProtectedRoute>} />
+          <Route path="/dashboard/dispatch" element={<ProtectedRoute user={user} department="dispatch"><DispatchDashboard apiUrl={API_BASE_URL} /></ProtectedRoute>} />
+          <Route path="/dashboard/watchman" element={<ProtectedRoute user={user} department="watchman"><WatchmanDashboard apiUrl={API_BASE_URL} /></ProtectedRoute>} />
+          <Route path="/dashboard/transport" element={<ProtectedRoute user={user} department="transport"><TransportDashboard apiUrl={API_BASE_URL} /></ProtectedRoute>} />
+          <Route path="/" element={<Navigate to={dashboardPath} replace />} />
           <Route path="*" element={<Navigate to={dashboardPath} replace />} />
         </Routes>
         <Toaster />
