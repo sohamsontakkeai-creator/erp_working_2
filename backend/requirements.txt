@@ -1,11 +1,7 @@
+# Build Tools
 pip>=23.0
 setuptools>=65.0.1
 wheel>=0.38.4
-
-
-# Data Processing
-openpyxl==3.1.2
-
 
 # Flask and Extensions
 Flask==2.3.3
@@ -14,23 +10,24 @@ Flask-CORS==4.0.0
 
 # Database
 PyMySQL==1.1.0
-SQLAlchemy==2.0.23
+SQLAlchemy==2.0.19
 alembic==1.12.1
 
 # Environment and Configuration
 python-dotenv==1.0.0
 
-# Web Scraping and HTTP Requests
+# Data Processing
+openpyxl==3.1.2
+
+# Web Scraping / Requests
 requests==2.31.0
 beautifulsoup4==4.12.2
 
-
-
-# Development Dependencies (optional)
+# Development (Optional)
 Flask-Testing==0.8.1
 pytest==7.4.3
 pytest-flask==1.2.0
 
-# Production Dependencies (optional)
+# Production (Optional)
 gunicorn==21.2.0
 redis==5.0.1
