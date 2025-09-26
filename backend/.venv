@@ -1,5 +1,14 @@
+# Remove old venv
 rm -rf .venv
-python3.12 -m venv .venv
-source .venv/bin/activate
+
+# Create a new one
+python3 -m venv .venv
+
+# Activate it
+source .venv/bin/activate   # macOS/Linux
+# or
+.venv\Scripts\activate      # Windows
+
+# Install packages
 pip install --upgrade pip
 pip install -r requirements.txt
