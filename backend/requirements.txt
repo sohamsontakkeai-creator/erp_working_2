@@ -9,6 +9,7 @@ openpyxl==3.1.2
 # Flask and Extensions
 Flask==2.3.3
 Flask-SQLAlchemy==2.5.1
+Flask-CORS==4.0.0
 
 # Database
 SQLAlchemy==1.4.48
